@@ -48,7 +48,7 @@ def role_rag(status, missing):
     return "Amber"  # Done drafts are unreviewed and assumption-based; Green needs human acceptance
 
 e = html.escape
-REPO = "https://github.com/Zia-CRM-hub/ACN-DU-AgentZia/blob/main/"
+REPO = "../../"  # local-only: relative links, served by scripts/serve_local.py
 cfg = json.loads((DOCS / "status" / "status.json").read_text(encoding="utf-8"))
 roles = []
 for r in table_rows(DOCS / "delivery" / "ROSTER.md"):

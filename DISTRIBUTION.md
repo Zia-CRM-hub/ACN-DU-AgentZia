@@ -16,16 +16,15 @@ Important: approval gates are currently written instructions, not technical enfo
 - Generate now: `python scripts/generate_status.py` produces `docs/status/index.html` (no JavaScript, auto-refreshes hourly).
 - It shows who is working on what, RAG per role, artifacts with last-changed time, open decisions, open RAID items and overall status.
 - RAG is evidence-based: Green is never assigned automatically. Role "Done" means a draft was written, not that outcomes were achieved.
-- Hourly automation: `.github/workflows/hourly-status.yml` regenerates and commits every hour (GitHub Actions cron can lag a few minutes). Windows alternative:
-  `schtasks /create /sc hourly /tn AgentZStatus /tr "python <path>\scripts\generate_status.py"`
-- Note: the page reflects what agents wrote to the roster. Agents only work when run, so the page cannot show live work between runs.
+- Hourly automation (local): Windows scheduled task `AgentZStatusHourly` runs `scripts/run_hourly_local.cmd`. Remove with `schtasks /delete /tn AgentZStatusHourly /f`.
+- View: run `python scripts/serve_local.py`, open http://127.0.0.1:8765/docs/status/index.html. It listens on localhost only, so nobody else on the network can reach it.
+- The page lists and links every report in `docs/`. It reflects what agents wrote to the roster; it cannot show live work between runs.
 
-## 3. Publish the page (needed for Teams)
-Teams tabs need an https URL. Enable GitHub Pages (Settings > Pages > main branch, root). The manifest assumes
-`https://zia-crm-hub.github.io/ACN-DU-AgentZia/docs/status/index.html`. Pages on a private repo needs a plan that supports it.
-The page exposes project status to anyone with the URL on public Pages: do not publish confidential engagement data this way. For confidential work, host on an internal site (Azure Static Web Apps with Entra ID auth) and change `contentUrl` and `validDomains` in `teams/manifest.json`.
+## 3. Privacy
+Reports are local-only. Do NOT enable GitHub Pages, and keep the GitHub repo private, since its docs hold project status. The GitHub workflow is manual-only.
 
-## 4. Add to Microsoft Teams
+## 4. Add to Microsoft Teams (optional, needs an https host)
+A Teams tab cannot load a localhost page for other users, and the manifest URL currently points at a GitHub Pages address that should NOT be enabled. Use Teams only after hosting the page internally with sign-in (e.g. Azure Static Web Apps with Entra ID) and updating `contentUrl`/`validDomains`.
 1. `python scripts/build_teams_package.py` builds `dist/AgentZ-Teams.zip` (manifest, color and outline icons).
 2. Teams > Apps > Manage your apps > Upload an app > Upload a custom app. Sideloading must be allowed by your tenant admin.
 3. For org-wide distribution, the Teams admin uploads it in the Teams admin center (Manage apps > Upload new app) and sets a permission policy.
