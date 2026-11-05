@@ -1,5 +1,8 @@
 name: Hourly delivery status
 on:
+  push:
+    branches: [main]
+    paths: ["docs/**", ".claude/agents/**"]
   schedule:
     - cron: "0 * * * *"
   workflow_dispatch:

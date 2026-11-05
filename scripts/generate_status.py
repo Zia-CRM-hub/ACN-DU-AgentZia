@@ -48,6 +48,7 @@ def role_rag(status, missing):
     return "Amber"  # Done drafts are unreviewed and assumption-based; Green needs human acceptance
 
 e = html.escape
+REPO = "https://github.com/Zia-CRM-hub/ACN-DU-AgentZia/blob/main/"
 cfg = json.loads((DOCS / "status" / "status.json").read_text(encoding="utf-8"))
 roles = []
 for r in table_rows(DOCS / "delivery" / "ROSTER.md"):
@@ -82,6 +83,14 @@ for x in roles:
     rows.append(f"<tr><td><b>{e(x['role'])}</b></td><td>{e(x['task'])}</td><td>{e(x['status'])}</td>"
                 f"<td>{badge(x['rag'])}</td><td>{links}</td><td>{e(x['updated'])}</td></tr>")
 
+groups = {}
+for f in sorted(DOCS.rglob("*.md")):
+    rel = f.relative_to(ROOT).as_posix()
+    groups.setdefault(rel.split("/")[1], []).append(rel)
+rep = "".join(f"<h3>{e(g)}</h3><ul>" + "".join(
+    f'<li><a href="{REPO}{e(p)}">{e(p.split("/")[-1])}</a> <span class="muted">({e(last_changed(p)[:16])})</span></li>' for p in ps)
+    + "</ul>" for g, ps in groups.items())
+
 page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="3600">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,6 +107,7 @@ th{{background:#f3f4f6}}.kpi{{display:inline-block;margin:0 24px 12px 0}}.kpi b{
 <h2>Who is working on what</h2>
 <table><tr><th>Role (AI agent)</th><th>Task</th><th>Status (self-reported)</th><th>RAG</th><th>Artifacts</th><th>Last changed</th></tr>
 {''.join(rows)}</table>
+<h2>All project reports</h2>{rep}
 <p class="muted">RAG rule: Red = artifact missing or blocked; Amber = delivered as a draft but not yet human-reviewed; Grey = not started. Green requires human acceptance and is never assigned automatically.
 Role status is self-reported by each agent in ROSTER.md; artifact existence and timestamps are checked by this script. Status = Done means a draft was written, not that outcomes were achieved.</p>
 <p class="muted">Generated {now}. Refreshes hourly. Status config: docs/status/status.json. Updated by: {e(cfg.get('updated_by',''))}.</p>
