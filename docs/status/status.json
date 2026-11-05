@@ -1,0 +1,9 @@
+{
+  "project": "[PROJECT NAME - set per engagement]",
+  "customer": "[CUSTOMER]",
+  "phase": "Discovery / Mobilization",
+  "overall_rag": "Amber",
+  "overall_reason": "No project baseline: claude.md project fields unfilled, no named sponsor or approvers. Only planning drafts exist.",
+  "updated_by": "PMO Analyst (human review pending)",
+  "note": "Edit this file to change the overall status. The generator never upgrades RAG on its own; it can only downgrade to Red when evidence is missing."
+}

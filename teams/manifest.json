@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "5e0b6a52-3c1d-4f7e-9a41-8d2c7b1f6e90",
+  "developer": {
+    "name": "Zia-CRM-hub",
+    "websiteUrl": "https://github.com/Zia-CRM-hub/ACN-DU-AgentZia",
+    "privacyUrl": "https://github.com/Zia-CRM-hub/ACN-DU-AgentZia",
+    "termsOfUseUrl": "https://github.com/Zia-CRM-hub/ACN-DU-AgentZia"
+  },
+  "name": { "short": "AgentZ Delivery", "full": "AgentZ AI Delivery Unit Status" },
+  "description": {
+    "short": "Hourly delivery status of the AgentZ AI delivery team.",
+    "full": "Shows who (which AI agent role) is working on what, artifacts delivered per role, and overall project RAG status. Updated hourly. Read-only: the app sends no messages and takes no actions."
+  },
+  "icons": { "color": "color.png", "outline": "outline.png" },
+  "accentColor": "#1F4E79",
+  "staticTabs": [
+    {
+      "entityId": "agentz-status",
+      "name": "Delivery Status",
+      "contentUrl": "https://zia-crm-hub.github.io/ACN-DU-AgentZia/docs/status/index.html",
+      "websiteUrl": "https://zia-crm-hub.github.io/ACN-DU-AgentZia/docs/status/index.html",
+      "scopes": ["personal"]
+    }
+  ],
+  "permissions": [],
+  "validDomains": ["zia-crm-hub.github.io"]
+}
